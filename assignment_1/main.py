@@ -9,6 +9,9 @@ def print_image_information(image):
     print("channels:", channels)
     print("size:", my_img.size)
     print("data type:", my_img.dtype)
+    cv.imshow("lena-1 displayed", my_img)
+    cv.waitKey(0)
+    cv.destroyWindow("lena-1 displayed")
     return 0
 
 def SaveMyWeb(filepath):
