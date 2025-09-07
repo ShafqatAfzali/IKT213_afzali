@@ -30,4 +30,3 @@ def SaveMyWeb(filepath):
 
 
 print_image_information('lena-1.png')
-SaveMyWeb('camera_outputs.txt')
