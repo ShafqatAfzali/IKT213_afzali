@@ -1,0 +1,4 @@
+the orb+bf method is faster when used on only two images.
+on the other hand the sift+flann method was way faster with more images
+the accuracy was way better with sift+flann
+
