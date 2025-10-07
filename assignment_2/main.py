@@ -58,10 +58,8 @@ def main(img_path,function):
         cv.waitKey(0)
         cv.destroyWindow("lena rotated 180 degrees")
 
-
-
 def padding(image, border_width):
-    img_with_border = cv.copyMakeBorder(image, border_width, border_width, border_width, border_width, cv.BORDER_CONSTANT)
+    img_with_border = cv.copyMakeBorder(image, border_width, border_width, border_width, border_width, cv.BORDER_REFLECT)
     cv.imwrite("lena_padded.png", img_with_border)
     return img_with_border
 
@@ -95,30 +93,25 @@ def hsv(image):
     cv.imwrite("lena_hsv.png", hsv_image)
     return hsv_image
 
+
 def hue_shifted(image, emptyPictureArray, hue):
+    height, width, channels = image.shape
 
-    hsv_image = cv.cvtColor(image, cv.COLOR_RGB2HSV)
-
-    height = hsv_image.shape[0]
-    width = hsv_image.shape[1]
-
-    for y in range(height):
-        for x in range(width):
-            hue_now = hsv_image[y, x, 0]
-
-            new_hue = (hue_now + hue) % 180
-
-            hsv_image[y, x, 0] = new_hue
-
-    shifted_img = cv.cvtColor(hsv_image, cv.COLOR_HSV2RGB)
-
-    height, width, channels = shifted_img.shape
     for y in range(height):
         for x in range(width):
             for c in range(channels):
-                emptyPictureArray[y, x, c] = shifted_img[y, x, c]
-    cv.imwrite("shifted_lena.png", emptyPictureArray)
+                current_value = int(image[y, x, c])
+                new_value = current_value + hue
 
+                if new_value > 255:
+                    new_value = 255
+                elif new_value < 0:
+                    new_value = 0
+                else:
+                    new_value = new_value
+                emptyPictureArray[y, x, c] = np.uint8(new_value)
+
+    cv.imwrite("shifted_lena.png", emptyPictureArray)
     return emptyPictureArray
 
 def smoothing(image):
@@ -138,4 +131,4 @@ def rotation(image, rotation_angle):
 
 
 
-main("lena-1.png", "rotation_180")
+main("lena-1.png", "hue_shifted")
