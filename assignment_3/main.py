@@ -1,35 +1,34 @@
 import cv2 as cv
 import numpy as np
-from IPython.core.display_functions import display
 
 
 def main(function_name):
-    img=cv.imread("lena-1.png")
+    img=cv.imread("lambo.png")
     img2 = cv.imread("shapes-1.png")
     template=cv.imread("shapes_template.jpg",0)
     if function_name == "sobel_edge_detection":
-        cv.imshow("lenas detected sobel edge",sobel_edge_detection(img))
+        cv.imshow("lambos detected sobel edge",sobel_edge_detection(img))
         cv.waitKey(0)
-        cv.destroyWindow("lenas detected sobel edge")
+        cv.destroyWindow("lambos detected sobel edge")
     elif function_name == "canny_edge_detection":
-        cv.imshow("lenas detected canny edge",canny_edge_detection(img,50,50))
+        cv.imshow("lambos detected canny edge",canny_edge_detection(img,50,50))
         cv.waitKey(0)
-        cv.destroyWindow("lenas detected canny edge")
+        cv.destroyWindow("lambos detected canny edge")
     elif function_name == "template_match":
         cv.imshow("matched shapes",template_match(img2,template))
         cv.waitKey(0)
         cv.destroyWindow("matched shapes")
     elif function_name == "resize":
-        cv.imshow("resized lena, scaled up",resize(img,2,"up"))
+        cv.imshow("resized lambo, scaled up",resize(img,2,"up"))
         cv.waitKey(0)
-        cv.destroyWindow("resized lena, scaled up")
+        cv.destroyWindow("resized lambo, scaled up")
 
 
 def sobel_edge_detection(image):
     img_gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
     img_blur = cv.GaussianBlur(img_gray, (3, 3), 0)
     img_sobel = cv.Sobel(src=img_blur, ddepth=cv.CV_64F, dx=1, dy=1, ksize=1)
-    cv.imwrite("lena_sobel.png", img_sobel)
+    cv.imwrite("lambo_sobel.png", img_sobel)
     return img_sobel
 
 
@@ -37,7 +36,7 @@ def canny_edge_detection(image, threshold_1, threshold_2):
     img_gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
     img_blur = cv.GaussianBlur(img_gray, (3, 3), 0)
     img_canny = cv.Canny(image=img_blur, threshold1=threshold_1, threshold2=threshold_2)
-    cv.imwrite("lena_canny.png", img_canny)
+    cv.imwrite("lambo_canny.png", img_canny)
     return img_canny
 
 
@@ -69,8 +68,10 @@ def resize(image, scale_factor:int, up_or_down:str):
         for i in range(scale_factor):
             resized = cv.pyrDown(resized, dstsize=(resized.shape[1] // 2, resized.shape[0] // 2))
 
-    cv.imwrite("lena_resized_up.png", resized)
+    cv.imwrite("lambo_resized_up.png", resized)
     return resized
 
 
+#main("sobel_edge_detection")
+#main("canny_edge_detection")
 main("resize")
