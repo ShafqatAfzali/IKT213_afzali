@@ -22,7 +22,7 @@ def edge_detect(reference_image):
 edge_detect("reference_img.png")
 
 def align_sift(image_to_align_path, reference_image_path,
-                     max_features=2000, good_match_percent=0.7,
+                     max_features=100, good_match_percent=0.7,
                      min_matches=10, ransac_thresh=5.0):
 
     ref_color = cv.imread(image_to_align_path, cv.IMREAD_COLOR)
