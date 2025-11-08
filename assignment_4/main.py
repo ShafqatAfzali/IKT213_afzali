@@ -21,8 +21,10 @@ def edge_detect(reference_image):
 
 edge_detect("reference_img.png")
 
+
+
 def align_sift(image_to_align_path, reference_image_path,
-                     max_features=100, good_match_percent=0.7,
+                     max_features=2000, good_match_percent=0.7,
                      min_matches=10, ransac_thresh=5.0):
 
     ref_color = cv.imread(image_to_align_path, cv.IMREAD_COLOR)
@@ -105,16 +107,20 @@ def align_sift(image_to_align_path, reference_image_path,
     else:
         aligned = cv.resize(ref_color, (img_color.shape[1], img_color.shape[0]), interpolation=cv.INTER_LINEAR)
 
+    matches_img = cv.drawMatches(ref_color, kp_ref, img_color, kp_img, good, None, flags=2)
     cv.imwrite("sift_aligned_img.jpg", aligned)
+    cv.imwrite("sift_matches.jpg", matches_img)
 
     ref_rgb = cv.cvtColor(ref_color, cv.COLOR_BGR2RGB)
     img_rgb = cv.cvtColor(img_color, cv.COLOR_BGR2RGB)
     aligned_rgb = cv.cvtColor(aligned, cv.COLOR_BGR2RGB)
+    matches_rgb = cv.cvtColor(matches_img, cv.COLOR_BGR2RGB)
 
-    plt.figure(figsize=(15, 5))
-    plt.subplot(1, 3, 1); plt.imshow(ref_rgb); plt.title("Image to Align"); plt.axis('off')
-    plt.subplot(1, 3, 2); plt.imshow(img_rgb); plt.title("Reference Image"); plt.axis('off')
-    plt.subplot(1, 3, 3); plt.imshow(aligned_rgb); plt.title("Aligned Reference"); plt.axis('off')
+    plt.figure(figsize=(20, 10))
+    plt.subplot(2, 2, 1); plt.imshow(ref_rgb); plt.title("Image to Align"); plt.axis('off')
+    plt.subplot(2, 2, 2); plt.imshow(img_rgb); plt.title("Reference Image"); plt.axis('off')
+    plt.subplot(2, 2, 3); plt.imshow(aligned_rgb); plt.title("Aligned Reference"); plt.axis('off')
+    plt.subplot(2, 2, 4); plt.imshow(matches_rgb); plt.title("Feature Matches"); plt.axis('off')
     plt.tight_layout()
     plt.show()
 
